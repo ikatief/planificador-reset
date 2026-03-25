@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Confirmar cuenta — CTP Calle Blancos</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #f0f4ff 0%, #e7f0ff 50%, #d7e6ff 100%);
+    }
+    .card {
+      background: white; border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(87,144,201,0.15);
+      padding: 40px 36px; width: 100%; max-width: 420px; text-align: center;
+    }
+    .icon { font-size: 56px; margin-bottom: 16px; }
+    h1 { font-size: 20px; font-weight: 700; color: #1F2A44; margin-bottom: 8px; }
+    .subtitle { font-size: 14px; color: #6C7A99; margin-bottom: 28px; line-height: 1.6; }
+    .badge {
+      display: inline-block; padding: 8px 20px; border-radius: 20px;
+      font-size: 13px; font-weight: 600; margin-bottom: 28px;
+    }
+    .badge.ok      { background: #E8F5E9; color: #2E7D32; }
+    .badge.error   { background: #FFEBEE; color: #C62828; }
+    .badge.loading { background: #EEF2FF; color: #1E3A6E; }
+    .spinner {
+      display: inline-block; width: 22px; height: 22px;
+      border: 2.5px solid #dde6ff; border-top-color: #5790C9;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .footer { margin-top: 32px; font-size: 12px; color: #AAB0C0; }
+    #view-loading, #view-ok, #view-error { display: none; }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <!-- Cargando -->
+  <div id="view-loading">
+    <div class="icon"><span class="spinner" style="width:52px;height:52px;border-width:4px;"></span></div>
+    <h1>Confirmando tu cuenta...</h1>
+    <p class="subtitle">Esto solo tarda un momento.</p>
+  </div>
+
+  <!-- Éxito -->
+  <div id="view-ok">
+    <div class="icon">✅</div>
+    <h1>Cuenta confirmada</h1>
+    <p class="subtitle">
+      Tu correo fue verificado correctamente.<br>
+      Ya podés cerrar esta página y abrir la aplicación para iniciar sesión.
+    </p>
+    <span class="badge ok">Cuenta activa</span>
+    <p class="subtitle">
+      <b>Planificador Institucional</b><br>
+      CTP Calle Blancos
+    </p>
+  </div>
+
+  <!-- Error -->
+  <div id="view-error">
+    <div class="icon">❌</div>
+    <h1>Enlace no válido</h1>
+    <p class="subtitle" id="errorMsg">
+      El enlace de confirmación no es válido o ya expiró.<br>
+      Pedí que te reenvíen el correo de confirmación desde la aplicación.
+    </p>
+    <span class="badge error">No confirmado</span>
+  </div>
+
+  <div class="footer">Planificador Institucional &copy; CTP Calle Blancos</div>
+</div>
+
+<script>
+  const SUPABASE_URL = "https://faawexmlltqkdqldbssy.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhYXdleG1sbHRxa2RxbGRic3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjA3OTksImV4cCI6MjA4NzE5Njc5OX0.0TUyepBwAz7nvTrRUVuY9tu0gTdR-nqL5ERiEP6yQQc";
+
+  window.addEventListener('load', async () => {
+    show('view-loading');
+
+    // El token de confirmación viene en el hash: #access_token=...&type=signup
+    const params = new URLSearchParams(
+      window.location.hash.substring(1) || window.location.search.substring(1)
+    );
+    const token = params.get('access_token');
+    const type  = params.get('type');
+
+    // Si Supabase ya procesó la confirmación y redirigió aquí con token de sesión
+    if (token && type === 'signup') {
+      // La confirmación ya ocurrió del lado de Supabase al seguir el enlace.
+      // Solo mostramos el mensaje de éxito.
+      show('view-ok');
+      return;
+    }
+
+    // Si hay cualquier token (Supabase a veces envía type diferente)
+    if (token) {
+      show('view-ok');
+      return;
+    }
+
+    // Sin token: el enlace no tenía parámetros válidos
+    show('view-error');
+  });
+
+  function show(id) {
+    ['view-loading','view-ok','view-error'].forEach(v =>
+      document.getElementById(v).style.display = v === id ? 'block' : 'none'
+    );
+  }
+</script>
+</body>
+</html>

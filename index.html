@@ -26,122 +26,65 @@
       text-align: center;
     }
 
-    .logo-area {
-      margin-bottom: 24px;
-    }
-
-    .logo-area h1 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1F2A44;
-      margin-top: 12px;
-    }
-
-    .logo-area p {
-      font-size: 13px;
-      color: #6C7A99;
-      margin-top: 4px;
-    }
+    .logo-area { margin-bottom: 24px; }
+    .logo-area h1 { font-size: 20px; font-weight: 700; color: #1F2A44; margin-top: 12px; }
+    .logo-area p  { font-size: 13px; color: #6C7A99; margin-top: 4px; }
 
     .shield {
-      width: 56px;
-      height: 56px;
-      background: #5790C9;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
+      width: 56px; height: 56px; background: #5790C9; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 26px;
     }
 
-    h2 {
-      font-size: 18px;
-      color: #1F2A44;
-      margin-bottom: 6px;
-    }
+    h2 { font-size: 18px; color: #1F2A44; margin-bottom: 6px; }
 
-    .subtitle {
-      font-size: 13px;
-      color: #6C7A99;
-      margin-bottom: 28px;
-    }
+    .subtitle { font-size: 13px; color: #6C7A99; margin-bottom: 28px; }
 
-    .field {
-      text-align: left;
-      margin-bottom: 16px;
-    }
+    .field { text-align: left; margin-bottom: 16px; }
+    .field label { display: block; font-size: 12px; font-weight: 600; color: #6C7A99; margin-bottom: 6px; }
 
-    .field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: #6C7A99;
-      margin-bottom: 6px;
-    }
-
-    .field input {
-      width: 100%;
-      height: 44px;
-      border: 1.5px solid #E3E9FF;
-      border-radius: 10px;
-      padding: 0 14px;
-      font-size: 14px;
-      color: #1F2A44;
-      outline: none;
+    /* Campo con botón ver/ocultar */
+    .pwd-wrap { position: relative; }
+    .pwd-wrap input {
+      width: 100%; height: 44px;
+      border: 1.5px solid #E3E9FF; border-radius: 10px;
+      padding: 0 44px 0 14px;
+      font-size: 14px; color: #1F2A44; outline: none;
       transition: border-color 0.2s;
     }
-
-    .field input:focus {
-      border-color: #5790C9;
+    .pwd-wrap input:focus { border-color: #5790C9; }
+    .toggle-pwd {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: #6C7A99;
+      width: auto; height: auto; margin: 0; padding: 2px 4px;
+      display: flex; align-items: center; justify-content: center;
     }
+    .toggle-pwd:hover { opacity: 0.75; }
 
-    button {
-      width: 100%;
-      height: 46px;
-      background: #5790C9;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: opacity 0.2s;
+    button.btn-principal {
+      width: 100%; height: 46px; background: #5790C9; color: white;
+      border: none; border-radius: 12px; font-size: 15px; font-weight: 600;
+      cursor: pointer; margin-top: 8px; transition: opacity 0.2s;
     }
-
-    button:hover { opacity: 0.9; }
-    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.btn-principal:hover    { opacity: 0.9; }
+    button.btn-principal:disabled { opacity: 0.55; cursor: not-allowed; }
 
     .mensaje {
-      margin-top: 18px;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 500;
-      display: none;
+      margin-top: 18px; padding: 12px 16px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; display: none; text-align: left;
     }
-
     .mensaje.error   { background: #FFEBEE; color: #C62828; }
     .mensaje.success { background: #E8F5E9; color: #2E7D32; }
-    .mensaje.info    { background: #EEF2FF; color: #1E3A6E; }
 
     .spinner {
-      display: inline-block;
-      width: 18px; height: 18px;
-      border: 2.5px solid rgba(255,255,255,0.4);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
+      display: inline-block; width: 18px; height: 18px;
+      border: 2.5px solid rgba(255,255,255,0.4); border-top-color: white;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .footer {
-      margin-top: 28px;
-      font-size: 12px;
-      color: #AAB0C0;
-    }
+    .footer { margin-top: 28px; font-size: 12px; color: #AAB0C0; }
 
     #view-loading, #view-form, #view-done { display: none; }
   </style>
@@ -154,31 +97,38 @@
     <p>CTP Calle Blancos</p>
   </div>
 
-  <!-- Estado: cargando / validando token -->
+  <!-- Cargando -->
   <div id="view-loading">
     <div class="spinner" style="border-color:rgba(87,144,201,0.3);border-top-color:#5790C9;width:32px;height:32px;"></div>
     <p style="margin-top:12px;color:#6C7A99;font-size:14px;">Verificando enlace...</p>
   </div>
 
-  <!-- Estado: formulario -->
+  <!-- Formulario -->
   <div id="view-form">
     <h2>Nueva contraseña</h2>
-    <p class="subtitle">Ingresa tu nueva contraseña para continuar.</p>
+    <p class="subtitle">Ingresá tu nueva contraseña para continuar.</p>
 
     <div class="field">
       <label>Nueva contraseña</label>
-      <input type="password" id="pwd1" placeholder="Mínimo 6 caracteres" autocomplete="new-password"/>
-    </div>
-    <div class="field">
-      <label>Confirmar contraseña</label>
-      <input type="password" id="pwd2" placeholder="Repite la contraseña" autocomplete="new-password"/>
+      <div class="pwd-wrap">
+        <input type="password" id="pwd1" placeholder="Mínimo 6 caracteres" autocomplete="new-password"/>
+        <button type="button" class="toggle-pwd" onclick="togglePwd('pwd1','ico1')" id="ico1">👁</button>
+      </div>
     </div>
 
-    <button id="btnCambiar" onclick="cambiarContrasena()">Cambiar contraseña</button>
+    <div class="field">
+      <label>Confirmar contraseña</label>
+      <div class="pwd-wrap">
+        <input type="password" id="pwd2" placeholder="Repetí la contraseña" autocomplete="new-password"/>
+        <button type="button" class="toggle-pwd" onclick="togglePwd('pwd2','ico2')" id="ico2">👁</button>
+      </div>
+    </div>
+
+    <button class="btn-principal" id="btnCambiar" onclick="cambiarContrasena()">Cambiar contraseña</button>
     <div id="msg" class="mensaje"></div>
   </div>
 
-  <!-- Estado: éxito final -->
+  <!-- Éxito -->
   <div id="view-done">
     <div style="font-size:48px;margin-bottom:12px;">✅</div>
     <h2>Contraseña actualizada</h2>
@@ -192,40 +142,41 @@
 </div>
 
 <script>
-  // ── Configuración Supabase ─────────────────────────────────────
   const SUPABASE_URL = "https://faawexmlltqkdqldbssy.supabase.co";
   const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhYXdleG1sbHRxa2RxbGRic3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjA3OTksImV4cCI6MjA4NzE5Njc5OX0.0TUyepBwAz7nvTrRUVuY9tu0gTdR-nqL5ERiEP6yQQc";
 
   let accessToken = null;
 
-  // ── Al cargar la página ────────────────────────────────────────
   window.addEventListener('load', () => {
     show('view-loading');
-
-    // El token puede venir en el hash (#access_token=...) o en query (?access_token=...)
     const hash   = window.location.hash.substring(1);
     const search = window.location.search.substring(1);
     const params = new URLSearchParams(hash || search);
+    const token  = params.get('access_token');
 
-    const type  = params.get('type');
-    const token = params.get('access_token');
-
-    if (token && (type === 'recovery' || type === 'magiclink' || type === null)) {
-      accessToken = token;
-      show('view-form');
-    } else if (token) {
-      // Tiene token pero type desconocido — mostrar form de todas formas
+    if (token) {
       accessToken = token;
       show('view-form');
     } else {
-      // No hay token: enlace inválido o expirado
       show('view-form');
       mostrarMensaje('El enlace no es válido o ha expirado. Solicitá uno nuevo desde la aplicación.', 'error');
       document.getElementById('btnCambiar').disabled = true;
     }
   });
 
-  // ── Cambiar contraseña ─────────────────────────────────────────
+  function togglePwd(inputId, btnId) {
+    const inp = document.getElementById(inputId);
+    const btn = document.getElementById(btnId);
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      btn.textContent = '🙈';
+    } else {
+      inp.type = 'password';
+      btn.textContent = '👁';
+    }
+    inp.focus();
+  }
+
   async function cambiarContrasena() {
     const pwd1 = document.getElementById('pwd1').value;
     const pwd2 = document.getElementById('pwd2').value;
@@ -245,24 +196,19 @@
     ocultarMensaje();
 
     try {
-      // Paso 1: iniciar sesión con el token de recuperación
+      // Intercambiar el token de recuperación por una sesión activa
+      let userToken = accessToken;
       const sessionResp = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=recovery`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY
-        },
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
         body: JSON.stringify({ access_token: accessToken })
       });
-
-      let userToken = accessToken;
-
       if (sessionResp.ok) {
-        const sessionData = await sessionResp.json();
-        if (sessionData.access_token) userToken = sessionData.access_token;
+        const sd = await sessionResp.json();
+        if (sd.access_token) userToken = sd.access_token;
       }
 
-      // Paso 2: cambiar la contraseña usando el token de sesión
+      // Cambiar la contraseña
       const resp = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
         method: 'PUT',
         headers: {
@@ -277,44 +223,34 @@
         show('view-done');
       } else {
         const err = await resp.json();
-        const msg = err.msg || err.message || 'No se pudo cambiar la contraseña.';
-        if (msg.toLowerCase().includes('expired') || msg.toLowerCase().includes('invalid')) {
+        const msg = (err.msg || err.message || '').toLowerCase();
+        if (msg.includes('expired') || msg.includes('invalid')) {
           mostrarMensaje('El enlace expiró. Solicitá uno nuevo desde la aplicación.', 'error');
         } else {
-          mostrarMensaje(msg, 'error');
+          mostrarMensaje('No se pudo cambiar la contraseña. Intentá de nuevo.', 'error');
         }
         btn.disabled = false;
         btn.textContent = 'Cambiar contraseña';
       }
-    } catch (e) {
+    } catch {
       mostrarMensaje('Error de conexión. Verificá tu internet e intentá de nuevo.', 'error');
       btn.disabled = false;
       btn.textContent = 'Cambiar contraseña';
     }
   }
 
-  // Permitir Enter en los campos
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') cambiarContrasena();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') cambiarContrasena(); });
 
   function show(id) {
-    ['view-loading','view-form','view-done'].forEach(v => {
-      document.getElementById(v).style.display = v === id ? 'block' : 'none';
-    });
+    ['view-loading','view-form','view-done'].forEach(v =>
+      document.getElementById(v).style.display = v === id ? 'block' : 'none'
+    );
   }
-
   function mostrarMensaje(texto, tipo) {
     const el = document.getElementById('msg');
-    el.textContent = texto;
-    el.className = `mensaje ${tipo}`;
-    el.style.display = 'block';
+    el.textContent = texto; el.className = `mensaje ${tipo}`; el.style.display = 'block';
   }
-
-  function ocultarMensaje() {
-    const el = document.getElementById('msg');
-    el.style.display = 'none';
-  }
+  function ocultarMensaje() { document.getElementById('msg').style.display = 'none'; }
 </script>
 </body>
 </html>
