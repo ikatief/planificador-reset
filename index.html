@@ -220,18 +220,28 @@
       });
 
       if (resp.ok) {
-        show('view-done');
-      } else {
-        const err = await resp.json();
-        const msg = (err.msg || err.message || '').toLowerCase();
-        if (msg.includes('expired') || msg.includes('invalid')) {
-          mostrarMensaje('El enlace expiró. Solicitá uno nuevo desde la aplicación.', 'error');
-        } else {
-          mostrarMensaje('No se pudo cambiar la contraseña. Intentá de nuevo.', 'error');
-        }
-        btn.disabled = false;
-        btn.textContent = 'Cambiar contraseña';
-      }
+  show('view-done');
+} else {
+  const err = await resp.json();
+  const msg = (err.msg || err.message || '').toLowerCase();
+
+  if (
+    msg.includes('same password') ||
+    msg.includes('same_password') ||
+    msg.includes('different from the old') ||
+    msg.includes('new password should be different') ||
+    msg.includes('password should be different')
+  ) {
+    mostrarMensaje('La contraseña nueva no debe ser igual a la anterior.', 'error');
+  } else if (msg.includes('expired') || msg.includes('invalid')) {
+    mostrarMensaje('El enlace expiró. Solicitá uno nuevo desde la aplicación.', 'error');
+  } else {
+    mostrarMensaje('No se pudo cambiar la contraseña. Intentá de nuevo.', 'error');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Cambiar contraseña';
+}
     } catch {
       mostrarMensaje('Error de conexión. Verificá tu internet e intentá de nuevo.', 'error');
       btn.disabled = false;
